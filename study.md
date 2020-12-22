@@ -6,10 +6,34 @@ https://github.com/wesbos/master-gatsby
 ## 50. Deploying to Netlify
 
 $ cd master-gatsby
+
 $ git init
 $ touch .gitignore
+
+# if no config user
+# git config --global user.name "My Name"
+# git config --global user.email "myemail@example.com"
+
 $ git status
- 
+$ git add -A
+# git add .
+$ git commit -m "everything"
+
+# if no user, and want to config ?locally
+$ git config user.name "My Name"
+$ git config user.email "myemail@example.com"
+$ git config --list
+
+$ git commit --amend --reset-author
+$ git log
+
+$ git remote add origin https://github.com/achebanenko/slicks-slices.git
+$ git push -u origin master
+
+
+netlify.com
+
+
 
 
 
