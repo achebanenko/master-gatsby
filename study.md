@@ -1,10 +1,29 @@
 # Master Gatsby
+
 https://github.com/wesbos/master-gatsby
+
+
+
+## 51. Hosting on your server
+
+bostype.com/pizza
+
+gatsby-config.js
+```
+...
+export default {
+  path/Prefix: '/pizza',
+  ...
+}
+```
+
+`$ npm run build -- --prefix-paths`
 
 
 
 ## 50. Deploying to Netlify
 
+```
 $ cd master-gatsby
 
 $ git init
@@ -30,35 +49,42 @@ $ git log
 $ git remote add origin https://github.com/achebanenko/slicks-slices.git
 $ git push -u origin master
 
+$ git config --unset user.password
+```
 
 netlify.com
 
 
+Web hook
+
+Add build hook and copy url by Site settings > Build & deploy, then
+% sanity $ sanity hook create
 
 
 
 ## 49. Building Gatsby Site
 
-$ npm run build
+`$ npm run build`
 
 
 
 ## 48. Building and Deploying Sanity
 
+```
 $ mkdir static
 # if error (no such file or directory) when minifying javascript bundles
 
 $ sanity deploy
+```
 
 https://slicksslicesart.sanity.studio/desk
-
 
 
 
 ## 47. Displaying the Home Page Data
 
 pages/index.js
-```
+```js
 import React from 'react';
 import useLatestData from '../utils/useLatestData';
 import { HomePageGrid } from '../styles/Grids';
@@ -111,7 +137,7 @@ export default function HomePage() {
 ```
 
 components/ItemGrid.js
-```
+```js
 import React from 'react';
 import { ItemsGrid, ItemStyles } from '../styles/Grids';
 
@@ -149,7 +175,7 @@ https://png-pixel.com/
 
 
 Components/LoadingGrid.js
-```
+```js
 import React from 'react';
 import { ItemsGrid, ItemStyles } from '../styles/Grids';
 
@@ -176,7 +202,7 @@ export default function LoadingGrid({ count }) {
 ``` 
 
 styles/Grids.js
-```
+```js
 ...
 
 export const ItemStyles = styled.div`
@@ -220,13 +246,14 @@ export const ItemStyles = styled.div`
 ```
 
 
+
 ## 45. Client Side Data Fetching
 
 It will give you a url to your  graphql database
 % sanity $ sanity graphql list
 
 utils/useLatestData.js
-```
+```js
 import { useEffect, useState } from 'react';
 
 const gql = String.raw;
@@ -296,7 +323,7 @@ pages/index.js
 ## 44. Creating an one-off store settings page (% sanity)
 
 sidebar.js
-```
+```js
 import React from 'react';
 import S from '@sanity/desk-tool/structure-builder';
 
@@ -340,14 +367,14 @@ sanity.json
 schemas/storeSettings.js
 schemas/schema.js
 
-$ sanity graphql deploy production
+`$ sanity graphql deploy production`
 
 
 
 ## 43. Honey Pot to defend against bots
 
 pages/order.js
-```
+```js
 ...
 <input
   type="mapleSyrup"
@@ -387,7 +414,7 @@ if (body.mapleSyrup) {
 ## 41-42. Serverless function
 
 functions/placeOrder/placeOrder.js
-```
+```js
 const nodemailer = require('nodemailer');
 
 function generateOrderEmail({ order, total }) {
@@ -443,10 +470,11 @@ exports.handler = async (event, context) => {
 ```
 
 
+
 ## 40. Modifying custom hook
 
 utils/usePizza.js
-```
+```js
 import { useContext, useState } from 'react';
 import OrderContext from '../components/OrderContext';
 import attachNamesAndPrices from './attachNamesAndPrices';
@@ -519,11 +547,13 @@ export default function usePizza({ pizzas, values }) {
 Testing https://ethereal.email/
 Production https://postmarkapp.com/ or https://sendgrid.com/
 
+```
 $ cd functions/placeOrder
 $ npm init
 $ npm i nodemailer
 
 $ npm run netlify
+```
 
 netlify.toml
 ```
@@ -547,7 +577,7 @@ GATSBY_SERVERLESS_BASE=http://localhost:8888/.netlify/functions
 ## 38. React Context with a custom Provider
 
 components/OrderContext.js
-```
+```js
 import React, { useState } from 'react';
 
 const OrderContext = React.createContext();
@@ -566,7 +596,7 @@ export default OrderContext;
 
 gatsby-browser.js
 gatsby-ssr.js
-```
+```js
 import { OrderProvider } from './src/components/OrderContext';
 ...
 export function wrapRootElement({ element }) {
@@ -575,7 +605,7 @@ export function wrapRootElement({ element }) {
 ```
 
 utils/usePizza.js
-```
+```js
 import { useContext } from 'react';
 import OrderContext from '../components/OrderContext';
 
@@ -592,7 +622,7 @@ export default function usePizza({ pizzas, inputs }) {
 components/PizzaOrder.js
 
 utils/usePizza.js
-```
+```js
 import { useState } from 'react';
 
 export default function usePizza({ pizzas, values }) {
@@ -612,12 +642,13 @@ export default function usePizza({ pizzas, values }) {
 ```
 
 
+
 ## 34. Order page
 
 pages/order.js
 
 utils/useForm.js
-```
+```js
 import { useState } from 'react';
 
 export default function useForm(defaults) {
@@ -639,10 +670,11 @@ export default function useForm(defaults) {
 ```
 
 
+
 ## 33. SEO and Head tags 
 
 gatsby-config.js
-```
+```js
 ...
 export default {
   ...
@@ -654,7 +686,7 @@ export default {
 ```
 
 components/SEO.js
-```
+```js
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
@@ -693,7 +725,7 @@ export default function SEO({ children, location, description, title, image }) {
 ```
 
 templates/Pizza.js
-```
+```js
 ...
 import SEO from '../components/SEO';
 
@@ -709,6 +741,7 @@ export default function SinglePizzaPage({ data: { pizza } }) {
 ```
 
 
+
 ## 28-31. Paginating Data
 
 .env
@@ -718,7 +751,7 @@ GATSBY_HOT_LOADER=fast-refresh
 ```
 
 gatsby-node.js
-```
+```js
 ...
 async function turnSlicemastersIntoPages({ graphql, actions }) {
   const { data } = await graphql(`
@@ -755,7 +788,7 @@ async function turnSlicemastersIntoPages({ graphql, actions }) {
 ```
 
 pages/slicemasters.js
-```
+```js
 ...
 export default function SlicemastersPage({ data, pageContext }) {
   const slicemasters = data.slicemasters.nodes;
@@ -785,7 +818,7 @@ export const query = graphql`
 ```
 
 components/Pagination.js
-```
+```js
 ...
 const PaginationStyles = styled.div`
   ...
@@ -842,7 +875,7 @@ export default function Pagination({
 https://sampleapis.com/
 
 gatsby-node.js
-```
+```js
 import fetch from 'isomorphic-fetch';
 ...
 
@@ -886,7 +919,7 @@ export async function sourceNodes(params) {
 ## 25. Dynamically creating toppings pages
 
 gatsby-node.js
-```
+```js
 ...
 
 async function turnToppingsIntoPages({ graphql, actions }) {
@@ -923,7 +956,7 @@ export async function createPages(params) {
 ```
 
 pages/pizzas.js
-```
+```js
 ...
 
 export default function PizzasPage({ data, pageContext }) {
@@ -949,10 +982,12 @@ export const query = graphql`
 `;
 ```
 
+
+
 ## 23. Dynamically creating pages with gatsby-node
 
 gatsby-node.js
-```
+```js
 import path from 'path';
 
 async function turnPizzasIntoPages({ graphql, actions }) {
@@ -987,7 +1022,7 @@ export async function createPages(params) {
 ```
 
 components/Pizza.js
-```
+```js
 import React from 'react';
 import { graphql } from 'gatsby';
 
@@ -1019,10 +1054,11 @@ export const query = graphql`
 ```
 
 
+
 ## 22. Static Queries
 
 components/ToppingsFilter.js
-```
+```js
 ...
 export default function ToppingsFilter() {
   const { toppings, pizzas } = useStaticQuery(graphql`
@@ -1058,10 +1094,11 @@ export default function ToppingsFilter() {
 ```
 
 
+
 ## 21. Styling with CSS subgrid
 
 components/PizzaList.js
-```
+```js
 ...
 const PizzaGridStyles = styled.div`
   display: grid;
@@ -1091,15 +1128,17 @@ const PizzaStyles = styled.div`
 ```
 
 
+
 ## 20. Loading in sample data
 
-$ sanity % sanity dataset import ./sample-data/all-sample-data.gz production --replace
+`$ sanity % sanity dataset import ./sample-data/all-sample-data.gz production --replace`
+
 
 
 ## 19. Gatsby images
 
 pages/pizzas.js
-```
+```js
 ...
 export const query = graphql`
   query PizzaQuery {
@@ -1124,7 +1163,7 @@ export const query = graphql`
 ```
 
 components/PizzaList.js
-```
+```js
 ...
 function SinglePizza({ pizza }) {
   return (
@@ -1139,10 +1178,11 @@ function SinglePizza({ pizza }) {
 ```
 
 
+
 ## 18. Gatsby queries
 
 pages/pizzas.js
-```
+```js
 import React from 'react';
 import { graphql } from 'gatsby';
 import PizzaList from '../components/PizzaList';
@@ -1189,7 +1229,7 @@ export const query = graphql`
 ## 17. Sourcing Sanity data and GraphQL intro
 
 gatsby-config.js
-```
+```js
 import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
@@ -1215,7 +1255,7 @@ $ gatsby % npm start
 
 
 Playground https://hithf087.api.sanity.io/v1/graphql/production/default
-```
+```js
 query {
   allPizza {
     name
@@ -1224,7 +1264,7 @@ query {
 ```
 
 GraphiQL http://localhost:8000/___graphql
-```
+```js
 query MyQuery {
   sanityPizza(id: {eq: "-880ea89b-72b0-550d-9a44-d75bc8e9e138"}) {
     name
@@ -1257,7 +1297,7 @@ query MyQuery {
 ## 16. Intro to gatsby-config
 
 gatsby-config.js
-```
+```js
 export default {
   siteMetadata: {
     title: 'Slicks Slices',
@@ -1270,7 +1310,7 @@ export default {
 ## 15. Custom CMS inputs (% sanity)
 
 components/PriceInput.js
-```
+```js
 import React from 'react';
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event';
 
@@ -1302,7 +1342,7 @@ export default function PriceInput({ type, value, onChange, inputComponent }) {
 ```
 
 schemas/pizza.js
-```
+```js
 import { MdLocalPizza as icon } from 'react-icons/md';
 import PriceInput from '../components/PriceInput';
 
@@ -1332,7 +1372,7 @@ export default {
 ## 13. Creating data relationships (% sanity)
 
 schemas/pizza.js
-```
+```js
 import { MdLocalPizza as icon } from 'react-icons/md';
 
 export default {
@@ -1374,7 +1414,7 @@ export default {
 ## 12. Toppings content type and custom previews (% sanity)
 
 schemas/topping.js
-```
+```js
 import { FaPepperHot as icon } from 'react-icons/fa';
 
 export default {
@@ -1415,14 +1455,16 @@ export default {
 
 ## 11. Setting up Sanity (% sanity)
 
+```
 $ npm install -g @sanity/cli
 $ sanity init
 
 $ sanity --version
 $ sanity init --reconfigure
+```
 
 schemas/pizza.js
-```
+```js
 import { MdLocalPizza as icon } from 'react-icons/md';
 
 export default {
@@ -1443,7 +1485,7 @@ export default {
 ```
 
 schemas/schema.js
-```
+```js
 import createSchema from 'part:@sanity/base/schema-creator';
 import schemaTypes from 'all:part:@sanity/base/schema-type';
 import pizza from './pizza';
@@ -1459,7 +1501,7 @@ export default createSchema({
 ## 10. Styling Layout
 
 Layout.js
-```
+```js
 ...
 import stripes from '../assets/images/stripes.svg';
 
@@ -1484,7 +1526,7 @@ const SiteBorderStyles = styled.div`
 To keep scale when change only rotate of the transform need to use css variable.
 
 Nav.js
-```
+```js
 ...
 li {
   --rotate: -2deg;
@@ -1509,7 +1551,7 @@ a {
 ```
 
 Logo.js
-```
+```js
 ...
 font-size: 6px;
 font-size: clamp(1px, 0.65vw, 8px);
@@ -1522,7 +1564,7 @@ height: 30em;
 ## 08. Typography
 
 src/styles/typography.js
-```
+```js
 import { createGlobalStyle } from 'styled-components';
 import font from '../assets/fonts/frenchfries.woff';
 
@@ -1545,7 +1587,7 @@ export default Typography;
 ## 07. GlobalStyles
 
 src/styles/GlobalStyles.js
-```
+```js
 import { createGlobalStyle } from 'styled-components';
 import bg from '../assets/images/bg.svg';
 
@@ -1584,5 +1626,14 @@ See files gatsby-browser.js and gatsby-ssr.js in the root gatsby (frontend) fold
 export function wrapPageElement({ element, props }) {
   return <Layout {...props}>{element}</Layout>;
 }
+```
+
+
+## 02 Setup
+
+```
+$ sudo npm install gatsby-cli @sanity/cli -g
+$ gatsby --version 
+$ sanity --version
 ```
 
